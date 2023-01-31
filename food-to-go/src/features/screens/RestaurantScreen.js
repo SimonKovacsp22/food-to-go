@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Searchbar } from "react-native-paper";
 import styled from "styled-components/native";
 
-import { StatusBar, SafeAreaView } from "react-native";
+import { StatusBar, SafeAreaView, FlatList } from "react-native";
 import RestaurantInfo from "../../components/RestaurantInfo";
 
 const SafeArea = styled(SafeAreaView)`
@@ -13,11 +13,11 @@ const SearchSafeArea = styled.View`
   background-color: ${(props) => props.theme.colors.bg.primary};
   padding: ${(props) => props.theme.space[3]};
 `;
-const RestaurantList = styled.View`
-  flex: 1;
-  background-color: ${(props) => props.theme.colors.bg.primary};
-  padding: ${(props) => props.theme.space[3]};
-`;
+const RestaurantList = styled(FlatList).attrs({
+  contentContainerStyle: {
+    padding: 16,
+  },
+})``;
 
 const RestaurantScreen = () => {
   return (
@@ -25,7 +25,18 @@ const RestaurantScreen = () => {
       <SearchSafeArea>
         <Searchbar />
       </SearchSafeArea>
-      <RestaurantList>
+      <RestaurantList
+        data={[
+          { name: 1 },
+          { name: 2 },
+          { name: 3 },
+          { name: 4 },
+          { name: 5 },
+          { name: 6 },
+        ]}
+        renderItem={() => <RestaurantInfo />}
+        keyExtractor={(item) => item.name}
+      >
         <RestaurantInfo />
       </RestaurantList>
     </SafeArea>
