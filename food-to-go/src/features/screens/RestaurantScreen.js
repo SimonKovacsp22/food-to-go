@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Searchbar } from "react-native-paper";
 import styled from "styled-components/native";
-
-import { StatusBar, SafeAreaView, FlatList } from "react-native";
+import { SafeArea } from "../../components/SafeArea";
+import { FlatList } from "react-native";
 import RestaurantInfo from "../../components/RestaurantInfo";
+import {
+  getRestaurants,
+  transformData,
+} from "../../services/restaurants/mock/restaurants.service";
+import { RestaurantContext } from "../../services/restaurants/mock/restaurants.context";
 
-const SafeArea = styled(SafeAreaView)`
-  flex: 1;
-`;
-const SearchSafeArea = styled.View`
-  ${StatusBar.currentHeight && `margin-top:  ${StatusBar.currentHeight}`}px;
-  background-color: ${(props) => props.theme.colors.bg.primary};
+const Search = styled.View`
   padding: ${(props) => props.theme.space[3]};
 `;
 const RestaurantList = styled(FlatList).attrs({
@@ -20,22 +20,16 @@ const RestaurantList = styled(FlatList).attrs({
 })``;
 
 const RestaurantScreen = () => {
+  const restaurantContext = useContext(RestaurantContext);
   return (
     <SafeArea>
-      <SearchSafeArea>
-        <Searchbar />
-      </SearchSafeArea>
+      <Search>
+        <Searchbar style={{ backgroundColor: "white" }} />
+      </Search>
       <RestaurantList
-        data={[
-          { name: 1 },
-          { name: 2 },
-          { name: 3 },
-          { name: 4 },
-          { name: 5 },
-          { name: 6 },
-        ]}
+        data={restaurantContext.restaurants}
         renderItem={() => <RestaurantInfo />}
-        keyExtractor={(item) => item.name}
+        keyExtractor={(item) => item}
       >
         <RestaurantInfo />
       </RestaurantList>
