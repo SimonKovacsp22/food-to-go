@@ -25,11 +25,12 @@ const RestaurantInfo = ({ restaurant = {} }) => {
     isOpenNow = true,
     rating = 3,
     isClosedTemporarily = true,
+    detail = false,
   } = restaurant;
 
   const ratingArray = Array.from(new Array(Math.floor(rating)));
   return (
-    <RestaurantCard elevation={5}>
+    <RestaurantCard elevation={5} detail={detail}>
       <RestaurantCardCover key={name} source={{ uri: photos[0] }} />
       <Info>
         <Typography variant="title">{name}</Typography>

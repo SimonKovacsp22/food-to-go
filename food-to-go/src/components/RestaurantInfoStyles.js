@@ -8,7 +8,10 @@ export const Icon = styled.Image`
 
 export const RestaurantCard = styled(Card)`
   background-color: ${(props) => props.theme.colors.bg.primary};
-  margin-bottom: ${(props) => props.theme.space[3]};
+  margin-bottom: ${(props) =>
+    props.detail ? props.theme.space[1] : props.theme.space[3]};
+  border-radius: ${(props) =>
+    props.detail ? props.theme.space[0] : props.theme.space[2]};
 `;
 
 export const RestaurantCardCover = styled(Card.Cover)`
