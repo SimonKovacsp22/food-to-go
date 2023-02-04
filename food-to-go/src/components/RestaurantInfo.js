@@ -9,6 +9,7 @@ import {
   Rating,
   Info,
 } from "./RestaurantInfoStyles";
+import Favourite from "./favourites/Favourite";
 
 import { SvgXml } from "react-native-svg";
 import star from "../../assets/star";
@@ -31,6 +32,7 @@ const RestaurantInfo = ({ restaurant = {} }) => {
   const ratingArray = Array.from(new Array(Math.floor(rating)));
   return (
     <RestaurantCard elevation={5} detail={detail}>
+      <Favourite restaurant={restaurant} />
       <RestaurantCardCover key={name} source={{ uri: photos[0] }} />
       <Info>
         <Typography variant="title">{name}</Typography>
