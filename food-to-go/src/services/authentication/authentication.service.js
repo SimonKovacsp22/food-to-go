@@ -4,6 +4,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 
@@ -17,19 +18,22 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+export const auth = getAuth(app);
 
 export const loginRequest = (email, password) => {
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      setIsAuthenticated(true);
-      const user = userCredential.user;
-      console.log(user);
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
+  return signInWithEmailAndPassword(auth, email, password);
+};
+
+export const signOutRequest = () => {
+  return signOut(auth);
+};
+
+export const registerRequest = (email, password, repeatedPassword) => {
+  if (password !== repeatedPassword) {
+    let error = { code: "Passwords do not match!" };
+    return new Promise((res, reject) => reject(error));
+  }
+  return createUserWithEmailAndPassword(auth, email, password);
 };
 
 const Authetication = () => {

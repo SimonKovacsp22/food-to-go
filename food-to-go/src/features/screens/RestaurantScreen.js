@@ -8,8 +8,9 @@ import { RestaurantContext } from "../../services/restaurants/mock/restaurants.c
 import Search from "../../components/Search";
 import { FavouritesContext } from "../../services/favourites/favorites.context";
 import FavouritesBar from "../../components/favourites/FavouritesBar";
+import { AuthenticationContext } from "../../services/authentication/authentication.context";
 
-const RestaurantList = styled(FlatList).attrs({
+export const RestaurantList = styled(FlatList).attrs({
   contentContainerStyle: {
     padding: 16,
   },
@@ -26,6 +27,7 @@ const RestaurantScreen = ({ navigation }) => {
   const { restaurants, isLoading, error } = useContext(RestaurantContext);
   const { favourites, removeFromFavourites, addToFavourites } =
     useContext(FavouritesContext);
+  const { user } = useContext(AuthenticationContext);
   return (
     <SafeArea>
       <Search

@@ -1,5 +1,11 @@
 import React, { createContext, useState } from "react";
-import { loginRequest } from "./authentication.service";
+import {
+  loginRequest,
+  registerRequest,
+  signOutRequest,
+  auth,
+} from "./authentication.service";
+import { onAuthStateChanged } from "firebase/auth";
 
 export const AuthenticationContext = createContext();
 
@@ -12,18 +18,64 @@ export const AuthenticationContextProvider = ({ children }) => {
   const onLogin = (email, password) => {
     setIsLoading(true);
     loginRequest(email, password)
-      .then((user) => {
-        setUser(user);
+      .then((userCredentail) => {
+        setUser(userCredentail);
         setIsLoading(false);
+        setIsAuthenticated(true);
+        setError(null);
       })
       .catch((e) => {
         setIsLoading(false);
-        setError(e);
+        setError(e.code);
       });
   };
+
+  const onSignOut = () => {
+    signOutRequest()
+      .then(() => {
+        setUser(null);
+        setIsAuthenticated(false);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setUser(user);
+      setIsAuthenticated(true);
+      setIsLoading(false);
+    } else {
+    }
+  });
+
+  const onRegister = (email, password, repeatedPassword) => {
+    setIsLoading(true);
+    registerRequest(email, password, repeatedPassword)
+      .then((userCredentail) => {
+        setUser(userCredentail);
+        setIsLoading(false);
+        setIsAuthenticated(true);
+        setError(null);
+      })
+      .catch((e) => {
+        setIsLoading(false);
+        setError(e.code);
+      });
+  };
+
   return (
     <AuthenticationContext.Provider
-      value={{ user, isLoading, error, isAuthenticated, onLogin }}
+      value={{
+        user,
+        isLoading,
+        error,
+        isAuthenticated,
+        onLogin,
+        onRegister,
+        onSignOut,
+      }}
     >
       {children}
     </AuthenticationContext.Provider>
