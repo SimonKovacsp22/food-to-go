@@ -9,6 +9,7 @@ import FavouritesScreen from "../../features/screens/FavouritesScreen";
 import { Button } from "react-native-paper";
 import styled from "styled-components/native";
 import { colors } from "../theme/colors";
+import CameraScreen from "../../features/screens/camera/CameraScreen";
 
 const SettingsStack = createStackNavigator();
 
@@ -19,9 +20,9 @@ const BackButton = styled(Button).attrs({
 const SettingsNavigator = ({ navigation, route }) => {
   return (
     <SettingsStack.Navigator
-      headerMode="screen"
       screenOptions={{
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        headerMode: "screen",
       }}
     >
       <SettingsStack.Group
@@ -45,6 +46,7 @@ const SettingsNavigator = ({ navigation, route }) => {
         })}
       >
         <SettingsStack.Screen name="Favourites" component={FavouritesScreen} />
+        <SettingsStack.Screen name="Camera" component={CameraScreen} />
       </SettingsStack.Group>
     </SettingsStack.Navigator>
   );

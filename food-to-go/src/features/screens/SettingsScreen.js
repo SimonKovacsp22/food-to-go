@@ -1,10 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
 import { SafeArea } from "../../components/SafeArea";
 import styled from "styled-components/native";
-import { Button, List, Avatar } from "react-native-paper";
+import { useFocusEffect } from "@react-navigation/native";
+import { List, Avatar } from "react-native-paper";
 import Text from "../../components/Typography";
 import Spacer from "../../components/Spacer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { TouchableOpacity } from "react-native";
 
 const SettingsItem = styled(List.Item)`
   padding: ${(props) => props.theme.space[3]};
@@ -15,15 +18,38 @@ const AvatarContainer = styled.View`
 `;
 
 const SettingsScreen = ({ navigation }) => {
+  const [photo, setPhoto] = useState(null);
   const { onSignOut, user } = useContext(AuthenticationContext);
+
+  const getProfilePic = async (currentUser) => {
+    const photoUri = await AsyncStorage.getItem(`${currentUser.uid}-photo`);
+    setPhoto(photoUri);
+  };
+
+  useFocusEffect(() => {
+    getProfilePic(user);
+  }, [user]);
+
   return (
     <SafeArea>
       <List.Section>
         <AvatarContainer>
-          <Avatar.Icon size={180} icon="human" backgroundColor="#2182BD" />
-          <Spacer>
-            <Text variant="label">{user.email}</Text>
-          </Spacer>
+          <TouchableOpacity onPress={() => navigation.navigate("Camera")}>
+            {photo ? (
+              <Avatar.Image
+                size={180}
+                source={{ uri: photo }}
+                backgroundColor="#2182BD"
+              ></Avatar.Image>
+            ) : (
+              <Avatar.Icon size={180} icon="human" backgroundColor="#2182BD" />
+            )}
+          </TouchableOpacity>
+          {user && (
+            <Spacer>
+              <Text variant="label">{user.email}</Text>
+            </Spacer>
+          )}
         </AvatarContainer>
         <SettingsItem
           title={"Favourites"}
