@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useCallback } from "react";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
 import { SafeArea } from "../../components/SafeArea";
 import styled from "styled-components/native";
@@ -26,9 +26,11 @@ const SettingsScreen = ({ navigation }) => {
     setPhoto(photoUri);
   };
 
-  useFocusEffect(() => {
-    getProfilePic(user);
-  }, [user]);
+  useFocusEffect(
+    useCallback(() => {
+      getProfilePic(user);
+    }, [user])
+  );
 
   return (
     <SafeArea>

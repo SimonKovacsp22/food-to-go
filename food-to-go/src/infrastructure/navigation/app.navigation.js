@@ -4,7 +4,7 @@ import MapScreen from "../../features/screens/MapScreen";
 import { Ionicons } from "@expo/vector-icons";
 import FavouritesContextProvider from "../../services/favourites/favorites.context";
 import { LocationContextProvider } from "../../services/location/location.context";
-import { RestaurantContextProvider } from "../../services/restaurants/mock/restaurants.context";
+import { RestaurantContextProvider } from "../../services/restaurants/restaurants.context";
 import SettingsNavigator from "./settings.navigator";
 
 const Tab = createBottomTabNavigator();

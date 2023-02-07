@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components/native";
 import MapView, { Marker, Callout } from "react-native-maps";
 import MapSearch from "../../components/map/MapSearch";
-import { RestaurantContext } from "../../services/restaurants/mock/restaurants.context";
+import { RestaurantContext } from "../../services/restaurants/restaurants.context";
 import { LocationContext } from "../../services/location/location.context";
 import MapCallout from "../../components/map/Callout";
 

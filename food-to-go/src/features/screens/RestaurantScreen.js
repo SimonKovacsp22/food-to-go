@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 import { SafeArea } from "../../components/SafeArea";
 import { FlatList, TouchableOpacity } from "react-native";
 import RestaurantInfo from "../../components/RestaurantInfo";
-import { RestaurantContext } from "../../services/restaurants/mock/restaurants.context";
+import { RestaurantContext } from "../../services/restaurants/restaurants.context";
 import Search from "../../components/Search";
 import { FavouritesContext } from "../../services/favourites/favorites.context";
 import FavouritesBar from "../../components/favourites/FavouritesBar";

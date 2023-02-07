@@ -1,21 +1,12 @@
 import camelize from "camelize";
-import { mocks, mockImages } from "./index";
 
 export const getRestaurants = (location = "41.878113,-87.629799") => {
-  return new Promise((resolve, reject) => {
-    const mock = mocks[location];
-    if (!mock) {
-      reject("wrong location!");
-    }
-    resolve(mock);
-  });
+  const restaurants = `https://us-central1-food-to-go-376717.cloudfunctions.net/placesNearby?location=${location}`;
+  return fetch(restaurants).then((res) => res.json());
 };
 
 export const transformData = (data) => {
   const mappedData = data.map((restaurant) => {
-    restaurant.photos = [
-      mockImages[Math.ceil(Math.random() * (mockImages.length - 1))],
-    ];
     return {
       ...restaurant,
       address: restaurant.vicinity,

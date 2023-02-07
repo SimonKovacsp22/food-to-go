@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { getLocations, transformLocation } from "./mock/location.service";
+import { getLocations, transformLocation } from "./location.service";
 
 export const LocationContext = createContext();
 

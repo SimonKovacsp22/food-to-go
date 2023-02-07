@@ -1,4 +1,3 @@
-import { Text, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native";
 import { List } from "react-native-paper";
 
@@ -14,9 +13,6 @@ const DetailScreen = ({ navigation, route }) => {
   return (
     <SafeArea style={{ marginTop: 0 }}>
       <RestaurantInfo restaurant={route.params}></RestaurantInfo>
-      {/* <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text>Back</Text>
-      </TouchableOpacity> */}
       <ScrollView>
         <List.Accordion
           title="Breakfast"
