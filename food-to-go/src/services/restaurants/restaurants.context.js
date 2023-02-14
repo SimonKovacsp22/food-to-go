@@ -20,11 +20,15 @@ export const RestaurantContextProvider = ({ children }) => {
       })
       .then((data) => {
         setIsLoading(false);
+        setError(false);
+
         setRestaurants(data);
       })
       .catch((err) => {
         setIsLoading(false);
         setError(err);
+        setRestaurants([]);
+        console.log("Error", err);
       });
   };
 

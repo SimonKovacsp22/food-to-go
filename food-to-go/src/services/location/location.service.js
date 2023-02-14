@@ -1,7 +1,7 @@
 import camelize from "camelize";
 
-export const getLocations = async (searchTerm = "san francisco") => {
-  const location = `https://us-central1-food-to-go-376717.cloudfunctions.net/geoCode?city=${searchTerm}`;
+export const getLocations = async (searchTerm) => {
+  const location = `https://us-central1-food-to-go-376717.cloudfunctions.net/geoCode?city=${searchTerm}&mock=true`;
   return fetch(location).then((res) => res.json());
 };
 

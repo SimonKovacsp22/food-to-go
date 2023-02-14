@@ -9,7 +9,9 @@ import Search from "../../components/Search";
 import { FavouritesContext } from "../../services/favourites/favorites.context";
 import FavouritesBar from "../../components/favourites/FavouritesBar";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
-import { FadeInView } from "../../components/animations/fade.animation";
+
+import { LocationContext } from "../../services/location/location.context";
+import Text from "../../components/Typography";
 
 export const RestaurantList = styled(FlatList).attrs({
   contentContainerStyle: {
@@ -26,6 +28,7 @@ const LoaderContainer = styled.View`
 const RestaurantScreen = ({ navigation }) => {
   const [isToggled, setIsToggled] = useState(false);
   const { restaurants, isLoading, error } = useContext(RestaurantContext);
+  const { error: locationError, keyword } = useContext(LocationContext);
   const { favourites, removeFromFavourites, addToFavourites } =
     useContext(FavouritesContext);
   const { user } = useContext(AuthenticationContext);
@@ -41,6 +44,15 @@ const RestaurantScreen = ({ navigation }) => {
           detailNavigate={navigation.navigate}
         />
       )}
+      {!!error ||
+        (!!locationError && (
+          <Text
+            style={{ fontSize: 16, fontWeight: "bold", marginLeft: 16 }}
+            variant="error"
+          >
+            Something went wrong searching for {keyword}
+          </Text>
+        ))}
       {isLoading ? (
         <LoaderContainer>
           <ActivityIndicator
@@ -58,9 +70,7 @@ const RestaurantScreen = ({ navigation }) => {
                 navigation.navigate("Detail", { ...item, detail: true })
               }
             >
-              <FadeInView>
-                <RestaurantInfo restaurant={item} />
-              </FadeInView>
+              <RestaurantInfo restaurant={item} />
             </TouchableOpacity>
           )}
           keyExtractor={(item) => item.name}

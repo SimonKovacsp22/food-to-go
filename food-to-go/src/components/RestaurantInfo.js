@@ -14,6 +14,7 @@ import Favourite from "./favourites/Favourite";
 import { SvgXml } from "react-native-svg";
 import star from "../../assets/star";
 import open from "../../assets/open";
+import { FadeInView } from "../components/animations/fade.animation";
 
 const RestaurantInfo = ({ restaurant = {} }) => {
   const {
@@ -31,32 +32,34 @@ const RestaurantInfo = ({ restaurant = {} }) => {
 
   const ratingArray = Array.from(new Array(Math.floor(rating)));
   return (
-    <RestaurantCard elevation={5} detail={detail}>
-      <Favourite restaurant={restaurant} />
-      <RestaurantCardCover key={name} source={{ uri: photos[0] }} />
-      <Info>
-        <Typography variant="title">{name}</Typography>
-        <Rating>
-          {ratingArray.map((_, idx) => (
-            <SvgXml key={idx} xml={star} width={20} height={20} />
-          ))}
-          <OpenFlex1>
-            {isClosedTemporarily && (
-              <Typography variant="error">CLOSED TEMPORARILY</Typography>
-            )}
+    <FadeInView>
+      <RestaurantCard elevation={5} detail={detail}>
+        <Favourite restaurant={restaurant} />
+        <RestaurantCardCover key={name} source={{ uri: photos[0] }} />
+        <Info>
+          <Typography variant="title">{name}</Typography>
+          <Rating>
+            {ratingArray.map((_, idx) => (
+              <SvgXml key={idx} xml={star} width={20} height={20} />
+            ))}
+            <OpenFlex1>
+              {isClosedTemporarily && (
+                <Typography variant="error">CLOSED TEMPORARILY</Typography>
+              )}
 
-            <Spacer size="large" position="left">
-              {isOpenNow && <SvgXml xml={open} width={20} height={20} />}
-            </Spacer>
+              <Spacer size="large" position="left">
+                {isOpenNow && <SvgXml xml={open} width={20} height={20} />}
+              </Spacer>
 
-            <Spacer size={"large"} position={"left"}>
-              <Icon source={{ uri: icon }} />
-            </Spacer>
-          </OpenFlex1>
-        </Rating>
-        <Typography variant="caption">{address}</Typography>
-      </Info>
-    </RestaurantCard>
+              <Spacer size={"large"} position={"left"}>
+                <Icon source={{ uri: icon }} />
+              </Spacer>
+            </OpenFlex1>
+          </Rating>
+          <Typography variant="caption">{address}</Typography>
+        </Info>
+      </RestaurantCard>
+    </FadeInView>
   );
 };
 

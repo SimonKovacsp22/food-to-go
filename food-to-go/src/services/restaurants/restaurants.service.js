@@ -1,7 +1,7 @@
 import camelize from "camelize";
 
-export const getRestaurants = (location = "41.878113,-87.629799") => {
-  const restaurants = `https://us-central1-food-to-go-376717.cloudfunctions.net/placesNearby?location=${location}`;
+export const getRestaurants = (location) => {
+  const restaurants = `https://us-central1-food-to-go-376717.cloudfunctions.net/placesNearby?location=${location}&mock=true`;
   return fetch(restaurants).then((res) => res.json());
 };
 
