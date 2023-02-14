@@ -1,5 +1,6 @@
 import styled from "styled-components/native";
-import { Card } from "react-native-paper";
+import { Button, Card } from "react-native-paper";
+import { colors } from "../infrastructure/theme/colors";
 
 export const Icon = styled.Image`
   width: 15px;
@@ -31,4 +32,13 @@ export const OpenFlex1 = styled.View`
   flex-grow: 1;
   flex-direction: row;
   justify-content: flex-end;
+`;
+
+export const OrderButton = styled(Button).attrs({
+  buttonColor: colors.brand.primary,
+})`
+  padding: ${(props) => props.theme.space[2]};
+  width: 80%;
+  border-radius: 4px;
+  align-self: center;
 `;

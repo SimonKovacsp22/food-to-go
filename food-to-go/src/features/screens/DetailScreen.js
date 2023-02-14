@@ -3,9 +3,13 @@ import { List } from "react-native-paper";
 
 import { SafeArea } from "../../components/SafeArea";
 import RestaurantInfo from "../../components/RestaurantInfo";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import Spacer from "../../components/Spacer";
+import { OrderButton } from "../../components/RestaurantInfoStyles";
+import { CartContext } from "../../services/cart/cart.context";
 
 const DetailScreen = ({ navigation, route }) => {
+  const { addToCart } = useContext(CartContext);
   const [breakfastExpanded, setBreakfastExpanded] = useState(false);
   const [lunchExpanded, setLunchExpanded] = useState(false);
   const [dinnerExpanded, setDinnerExpanded] = useState(false);
@@ -54,6 +58,18 @@ const DetailScreen = ({ navigation, route }) => {
           <List.Item title="Coke" />
         </List.Accordion>
       </ScrollView>
+      <Spacer position={"bottom"} size={"large"}>
+        <OrderButton
+          icon={"credit-card-outline"}
+          mode="contained"
+          onPress={() => {
+            addToCart({ item: "special", price: 1299 }, route.params);
+            navigation.navigate("Checkout");
+          }}
+        >
+          Order Special $12.99
+        </OrderButton>
+      </Spacer>
     </SafeArea>
   );
 };

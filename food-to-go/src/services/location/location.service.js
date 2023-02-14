@@ -6,7 +6,6 @@ export const getLocations = async (searchTerm) => {
 };
 
 export const transformLocation = (result) => {
-  console.log(result);
   const formattedResult = camelize(result);
   const { geometry = {} } = formattedResult.results[0];
   const { lat, lng } = geometry.location;
