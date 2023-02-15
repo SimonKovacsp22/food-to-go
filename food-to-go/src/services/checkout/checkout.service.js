@@ -6,5 +6,21 @@ const stripe = createStripe(
 
 export const cardTokenRequest = async (card) => {
   const info = await stripe.createToken({ card });
-  console.log(info);
+  return info;
+};
+
+export const paymentRequest = (token, amount) => {
+  console.log(token, amount);
+  return fetch(`https://us-central1-food-to-go-376717.cloudfunctions.net/pay`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      token,
+      amount,
+    }),
+  })
+    .then((res) => res.json())
+    .catch((e) => console.log(e));
 };
