@@ -1,7 +1,11 @@
 import { View, Text } from "react-native";
-import React from "react";
 import styled from "styled-components/native";
-import { Avatar, Button, TextInput } from "react-native-paper";
+import {
+  ActivityIndicator,
+  Avatar,
+  Button,
+  TextInput,
+} from "react-native-paper";
 import { colors } from "../../infrastructure/theme/colors";
 
 export const CartIconContainer = styled.View`
@@ -42,3 +46,9 @@ export const ClearButton = styled(Button).attrs({
   border-radius: 5px;
   align-self: center;
 `;
+
+export const PaymentProcessing = styled(ActivityIndicator).attrs({
+  size: 50,
+  animating: true,
+  color: "tomato",
+})``;

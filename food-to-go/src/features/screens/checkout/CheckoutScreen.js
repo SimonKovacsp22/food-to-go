@@ -1,7 +1,7 @@
 import { ScrollView } from "react-native";
 import Text from "../../../components/Typography";
 import CreditCard from "../../../components/checkout/CreditCard";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { List } from "react-native-paper";
 import { SafeArea } from "../../../components/SafeArea";
 import { CartContext } from "../../../services/cart/cart.context";
@@ -15,19 +15,38 @@ import {
   PayButton,
 } from "../../../components/checkout/Checkout.styles";
 import Spacer from "../../../components/Spacer";
+import { PaymentProcessing } from "../../../components/checkout/Checkout.styles";
 
-const CheckoutScreen = () => {
+const CheckoutScreen = ({ navigation }) => {
   const { cart, restaurant, sum, clearCart } = useContext(CartContext);
   const [name, setName] = useState("");
   const [card, setCard] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onPay = () => {
+    setIsLoading(true);
     if (!card || !card.id) {
       console.log("error card");
+      setIsLoading(false);
+      navigation.navigate("Error", {
+        error: "Please fill in a valid credit card",
+      });
       return;
     }
     console.log("here");
-    paymentRequest(card.id, sum);
+    paymentRequest(card.id, sum)
+      .then((result) => {
+        setIsLoading(false);
+        clearCart();
+        setCard(null);
+        navigation.navigate("Success");
+      })
+      .catch((e) => {
+        setIsLoading(false);
+        navigation.navigate("Error", {
+          error: e,
+        });
+      });
   };
 
   if (!cart.length || !restaurant) {
@@ -35,6 +54,7 @@ const CheckoutScreen = () => {
       <SafeArea>
         <CartIconContainer>
           <CartIcon icon="cart-off" />
+          <Spacer size={"medium"} />
           <Text>Cart is empty!</Text>
         </CartIconContainer>
       </SafeArea>
@@ -44,25 +64,31 @@ const CheckoutScreen = () => {
     <SafeArea>
       <RestaurantInfo restaurant={restaurant} />
       <Spacer />
-      <Spacer position={"left"}>
-        <Text>Your Order</Text>
-      </Spacer>
-      <NameInput
-        label="Name"
-        value={name}
-        onChangeText={(text) => {
-          setName(text);
-        }}
-      />
-      {name.length > 0 && (
-        <CreditCard name={name} onSuccess={setCard}></CreditCard>
+      {isLoading ? (
+        <PaymentProcessing />
+      ) : (
+        <>
+          <Spacer position={"left"}>
+            <Text>Your Order</Text>
+          </Spacer>
+          <NameInput
+            label="Name"
+            value={name}
+            onChangeText={(text) => {
+              setName(text);
+            }}
+          />
+          {name.length > 0 && (
+            <CreditCard name={name} onSuccess={setCard}></CreditCard>
+          )}
+          <PayButton icon="currency-usd" onPress={onPay} disabled={isLoading}>
+            Pay Now
+          </PayButton>
+          <ClearButton icon="cart-off" onPress={clearCart} disabled={isLoading}>
+            Empty Cart
+          </ClearButton>
+        </>
       )}
-      <PayButton icon="currency-usd" onPress={onPay}>
-        Pay Now
-      </PayButton>
-      <ClearButton icon="cart-off" onPress={clearCart}>
-        Empty Cart
-      </ClearButton>
 
       <ScrollView>
         <List.Section>
